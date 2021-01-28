@@ -28,7 +28,7 @@ Please download NUS-WIDE train and test(unseen and seen-unseen) features into `.
 
 ### NUS-WIDE
 
-1) To train and evaluate zero-shot learning model on full NUS-WIDE dataset, please run:
+To train and evaluate zero-shot learning model on full NUS-WIDE dataset, please run:
 ```
 sh scripts/train_nus_wide.sh or ./scripts/train_nus_wide.sh
 
