@@ -33,7 +33,6 @@ To train and evaluate zero-shot learning model on full NUS-WIDE dataset, please 
 sh scripts/train_nus_wide.sh or ./scripts/train_nus_wide.sh
 
 ```
----
 ## Model Checkpoint
 
 We also include the checkpoint of the zero-shot generative model on NUS-WIDE for fast evaluation in `weights` folder. Please download the pretrained weights according to the intructions within the folder. To reproduce results, please run:
@@ -41,8 +40,6 @@ We also include the checkpoint of the zero-shot generative model on NUS-WIDE for
 sh scripts/eval_nus_wide.sh or ./scripts/eval_nus_wide.sh
 
 ```
-
----
 ## Citation
 If this code is helpful for your research, we would appreciate if you cite the work:
 ```
