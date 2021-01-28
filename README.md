@@ -6,7 +6,7 @@
 
 ## Overview
 This repository contains the implementation of [Generative Multi-Label Zero-Shot Learning](https://arxiv.org/pdf/2101.11606.pdf).
-> In this work, we tackle the problem of multi-label feature synthesis in the (generalized) zero-shot setting with a novel training mechanism.
+> In this work, we tackle the problem of synthesizing multi-label features in the context of zero-shot setting for recognition all (un)seen labels with a novel training mechanism.
 
 ![Image](https://github.com/akshitac8/Generative_MLZSL/blob/main/images/arch.png)
 
@@ -22,7 +22,7 @@ conda activate mlzsl
 
 ## Data Preparation
 
-Please download and extract NUS-WIDE train and test features into `./data` folder according to the instructions within the folder.
+Please download NUS-WIDE train and test(unseen and seen-unseen) features into `./data` folder according to the instructions within the folder.
 
 ## Training and Evaluation
 
@@ -30,13 +30,13 @@ Please download and extract NUS-WIDE train and test features into `./data` folde
 
 1) To train and evaluate zero-shot learning model on full NUS-WIDE dataset, please run:
 ```
-sh scripts/run_nus_wide.sh or ./scripts/run_nus_wide.sh
+sh scripts/train_nus_wide.sh or ./scripts/train_nus_wide.sh
 
 ```
 ---
 ## Model Checkpoint
 
-We also include the checkpoint of the zero-shot generative model on NUS-WIDE for fast evaluation in `weights` folder. To reproduce paper, please run:
+We also include the checkpoint of the zero-shot generative model on NUS-WIDE for fast evaluation in `weights` folder. Please download the pretrained weights according to the intructions within the folder. To reproduce results, please run:
 ```
 sh scripts/eval_nus_wide.sh or ./scripts/eval_nus_wide.sh
 
@@ -59,4 +59,4 @@ If this code is helpful for your research, we would appreciate if you cite the w
 Acknowledgments
 ---------------
 
-I thank [Dat Huynh](https://hbdat.github.io/) for discussions regarding the project evaluation protocol and sharing details for the baseline sero-shot methods. I thank [Aditya Arora](https://adityac8.github.io/) for suggestions on figure aesthetics.
+I thank [Dat Huynh](https://hbdat.github.io/) for discussions and feedback regarding the evaluation protocol and sharing details for the baseline sero-shot methods. I thank [Aditya Arora](https://adityac8.github.io/) for suggestions on the figure aesthetics.
