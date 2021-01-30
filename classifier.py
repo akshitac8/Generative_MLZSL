@@ -3,7 +3,7 @@ import torch.nn as nn
 from torch.autograd import Variable
 import torch.optim as optim
 import numpy as np
-import util_nus_coco as util
+import util as util
 import torch.nn as nn
 from sklearn.preprocessing import MinMaxScaler
 import sys
@@ -20,7 +20,7 @@ from sklearn.metrics import average_precision_score, f1_score, precision_score, 
 
 
 class CLASSIFIER:
-    def __init__(self, _train_X, _train_Y, data_loader, _nclass, _cuda, _dataset, opt, _lr=0.001, _beta1=0.5, _nepoch=20, _batch_size=100, generalized=True):
+    def __init__(self, _train_X, _train_Y, data_loader, _nclass, _cuda, opt, _lr=0.001, _beta1=0.5, _nepoch=20, _batch_size=100, generalized=True):
         self.train_X = _train_X
         self.train_Y = _train_Y
         self.train_feature = data_loader.train_feature
@@ -36,7 +36,6 @@ class CLASSIFIER:
         self.nclass = _nclass
         self.input_dim = _train_X.size(1)
         self.cuda = _cuda
-        self.dataset = _dataset
         self.model = LINEAR_LOGSOFTMAX(self.input_dim, self.nclass)
         self.model.apply(util.weights_init)
         self.input = torch.FloatTensor(_batch_size, self.input_dim)

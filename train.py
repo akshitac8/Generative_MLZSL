@@ -37,7 +37,6 @@ if torch.cuda.is_available() and not opt.cuda:
 #calling the dataloader
 data = util.DATA_LOADER(opt)
 print("training samples: ", data.ntrain)
-print("Datatset",opt.dataset)
 
 ############## MODEL INITIALIZATION #############
 netE = model.Encoder(opt)
@@ -243,7 +242,7 @@ for epoch in range(0, opt.nepoch+1):
         print(train_Y.shape)
         tic = time.time()
         gzsl_cls = classifier.CLASSIFIER(train_X, train_Y, data, nclass,
-                                        opt.cuda, opt.dataset, opt, opt.classifier_lr, 0.5, opt.classifier_epoch,
+                                        opt.cuda, opt, opt.classifier_lr, 0.5, opt.classifier_epoch,
                                         opt.classifier_batch_size, True)
 
         sum_GZSL_F1_5 = gzsl_cls.sum_F1_scores_seen_unseen[4]*100 + gzsl_cls.sum_F1_scores_seen_unseen[0]*100
@@ -275,7 +274,7 @@ for epoch in range(0, opt.nepoch+1):
 
     tic = time.time()
     zsl_cls = classifier.CLASSIFIER(zsl_syn_feature, zsl_syn_label, data,
-                                        data.unseenclasses.size(0), opt.cuda, opt.dataset, opt, opt.classifier_lr,
+                                        data.unseenclasses.size(0), opt.cuda, opt, opt.classifier_lr,
                                         0.5, opt.classifier_epoch, opt.classifier_batch_size, False)
 
     sum_ZSL_F1 = zsl_cls.sum_F1_scores[4]*100 + zsl_cls.sum_F1_scores[0]*100
@@ -315,7 +314,6 @@ for epoch in range(0, opt.nepoch+1):
 
 print(" Total time taken {} ".format(time.time()-tic1))
 
-print('Dataset', opt.dataset)
 print("GZSL BEST EPOCH", gzsl_best_epoch)
 print('GZSL: AP=%.4f' % (sum_f1_best_GZSL_AP))
 print('GZSL K=5 : f1=%.4f,P=%.4f,R=%.4f' %
@@ -331,8 +329,8 @@ print('ZSL K=3 : f1=%.4f,P=%.4f,R=%.4f' %
         (sum_f1_best_ZSL_F1_3, sum_f1_best_ZSL_P_3, sum_f1_best_ZSL_R_3))
 
 ##saving results to csv file
-fname = opt.dataset + '_result_F1.csv'
-row = [opt.dataset, opt.nepoch, sum_f1_best_GZSL_AP, sum_f1_best_ZSL_AP, sum_f1_best_GZSL_F1_3, sum_f1_best_GZSL_P_3, 
+fname = 'HYBRID_FUSION_result_F1.csv'
+row = [opt.nepoch, sum_f1_best_GZSL_AP, sum_f1_best_ZSL_AP, sum_f1_best_GZSL_F1_3, sum_f1_best_GZSL_P_3, 
         sum_f1_best_GZSL_R_3, sum_f1_best_ZSL_F1_3, sum_f1_best_ZSL_P_3, sum_f1_best_ZSL_R_3,
         sum_f1_best_GZSL_F1_5, sum_f1_best_GZSL_P_5, sum_f1_best_GZSL_R_5, sum_f1_best_ZSL_F1_5, 
         sum_f1_best_ZSL_P_5, sum_f1_best_ZSL_R_5, opt.summary]

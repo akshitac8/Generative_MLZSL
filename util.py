@@ -48,7 +48,7 @@ def weights_init(m):
 
 # SYNTHESIS LABELS FROM TRAIN DATA 
 def generate_fake_test_from_train_labels(train_seen_label, attribute, seenclasses, unseenclasses, num, per_seen=0.10, \
-                                        per_unseen=0.40, per_seen_unseen= 0.50, dataset='NUS-WIDE'):
+                                        per_unseen=0.40, per_seen_unseen= 0.50):
     if train_seen_label.min() == 0:
         print("Training data already trimmed and converted")
     else:
@@ -59,10 +59,7 @@ def generate_fake_test_from_train_labels(train_seen_label, attribute, seenclasse
     train_seen_label = train_seen_label[(train_seen_label.sum(1) != 0).nonzero().flatten()]
     seen_attributes = attribute[seenclasses]
     unseen_attributes = attribute[unseenclasses]
-    if dataset=='NUS-WIDE':
-        seen_percent, unseen_percent, seen_unseen_percent = per_seen , per_unseen, per_seen_unseen
-    else:
-        seen_percent, unseen_percent, seen_unseen_percent = per_seen , per_unseen, per_seen_unseen
+    seen_percent, unseen_percent, seen_unseen_percent = per_seen , per_unseen, per_seen_unseen
 
     print("seen={}, unseen={}, seen-unseen={}".format(seen_percent, unseen_percent, seen_unseen_percent))
     print("syn num={}".format(num))
@@ -150,7 +147,7 @@ class DATA_LOADER(object):
 
     def read_matdataset(self, opt):
         tic = time.time()
-        src = "/home/ag1/akshita/multi-label-zsl/data"
+        src = "/home/ubuntu/workspace/data/NUS-WIDE"
         att_path = os.path.join(src,'wiki_contexts','NUS_WIDE_pretrained_w2v_glove-wiki-gigaword-300')
         file_tag1k = os.path.join(src,'NUS_WID_Tags','TagList1k.txt')
         file_tag81 = os.path.join(src,'ConceptsList','Concepts81.txt')
@@ -159,9 +156,9 @@ class DATA_LOADER(object):
         print("attributes are combined in this order-> seen+unseen")
         self.attribute = torch.from_numpy(normalize(np.concatenate((src_att[0][self.seen_cls_idx],src_att[1]),axis=0)))
         #VGG features path
-        train_loc = load_dict_from_hdf5(os.path.join(src, 'nus_wide','nus_seen_train_vgg19.h5'))
-        test_unseen_loc = load_dict_from_hdf5(os.path.join(src, 'nus_wide', 'nus_zsl_test_vgg19.h5'))
-        test_seen_unseen_loc = load_dict_from_hdf5(os.path.join(src, 'nus_wide', 'nus_gzsl_test_vgg19.h5'))
+        train_loc = load_dict_from_hdf5(os.path.join(src, 'nus_wide_paper_features','nus_seen_train_vgg19.h5'))
+        test_unseen_loc = load_dict_from_hdf5(os.path.join(src, 'nus_wide_paper_features', 'nus_zsl_test_vgg19.h5'))
+        test_seen_unseen_loc = load_dict_from_hdf5(os.path.join(src, 'nus_wide_paper_features', 'nus_gzsl_test_vgg19.h5'))
 
 
         feature_train_loc = train_loc['features']
@@ -223,7 +220,6 @@ class DATA_LOADER(object):
         
         self.N = opt.N
         self.syn_num = opt.syn_num
-        self.dataset = opt.dataset
         self.per_seen = opt.per_seen
         self.per_unseen = opt.per_unseen
         self.per_seen_unseen = opt.per_seen_unseen
@@ -239,8 +235,7 @@ class DATA_LOADER(object):
         self.train_class = self.seenclasses.clone()
         self.allclasses = torch.arange(0, self.ntrain_class + self.ntest_class).long()
         self.GZSL_fake_test_labels = generate_fake_test_from_train_labels(train_labels, self.attribute, self.seenclasses, \
-                                        self.unseenclasses, self.syn_num, self.per_seen, self.per_unseen, self.per_seen_unseen, \
-                                        dataset=opt.dataset)
+                                        self.unseenclasses, self.syn_num, self.per_seen, self.per_unseen, self.per_seen_unseen)
 
         print("Data preprocssing finished, Time taken: {}".format(time.time()-tic))
     

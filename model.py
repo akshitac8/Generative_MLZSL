@@ -123,7 +123,6 @@ def attention(q, k, v, d_k, dropout=None):
 class FeedForward(nn.Module):
     def __init__(self, d_model, d_ff):
         super().__init__()
-        self.num_ff = num_ff
         self.linear_1 = nn.Linear(d_model, d_ff)
         self.linear_2 = nn.Linear(d_ff, d_model)
         self.apply(weights_init)
@@ -140,9 +139,9 @@ class MultiheadAttentionlayer(nn.Module):
         self.self_attn = MultiHeadAttention(heads, d_model)
         self.feedforward_net = FeedForward(d_model, d_ff)
 
-    def forward(self, x, leaky_relu=False):
+    def forward(self, x):
         x = self.self_attn(x, x, x)
-        x = self.feedforward_net(x, leaky_relu)
+        x = self.feedforward_net(x)
         return x
 
 class HYBRID_FUSION_ATTENTION(nn.Module):
@@ -163,7 +162,7 @@ class HYBRID_FUSION_ATTENTION(nn.Module):
         late_out = late_out/idx_count.unsqueeze(1).clamp(min=1)
         early_out = torch.sigmoid(self.early_fusion(noise, avg_att))
         temp_out = torch.stack((late_out,early_out),1)
-        out = self.attn(temp_out, leaky_relu=self.leaky_relu)
+        out = self.attn(temp_out)
         out = torch.sigmoid(torch.mean(out,1))
         return out
 

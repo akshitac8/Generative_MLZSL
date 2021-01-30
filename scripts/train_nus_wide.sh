@@ -5,7 +5,7 @@ python train.py --gzsl \
 --ndh 4096 \
 --lr 0.0001 --classifier_lr 0.001 \
 --lambda1 10 --critic_iter 5 \
---dataset NUS-WIDE --nclass_all 1006 --nseen_class 925 \
+--nclass_all 1006 --nseen_class 925 \
 --batch_size 64 --workers 8 --attSize 300 \
 --resSize 4096 \
 --encoder_layer_sizes1 4096 --encoder_layer_sizes2 4096 \
