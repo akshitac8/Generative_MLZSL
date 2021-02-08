@@ -45,14 +45,11 @@ sh scripts/eval_nus_wide.sh or ./scripts/eval_nus_wide.sh
 ## Citation
 If this code is helpful for your research, we would appreciate if you cite the work:
 ```
-@misc{gupta2021generative,
-      title={Generative Multi-Label Zero-Shot Learning}, 
-      author={Akshita Gupta and Sanath Narayan and Salman Khan and Fahad Shahbaz Khan and Ling Shao and Joost van de Weijer},
-      year={2021},
-      eprint={2101.11606},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV}
-}
+@article{gupta2021generative,
+  title={Generative Multi-Label Zero-Shot Learning},
+  author={Gupta, Akshita and Narayan, Sanath and Khan, Salman and Khan, Fahad Shahbaz and Shao, Ling and van de Weijer, Joost},
+  journal={arXiv preprint arXiv:2101.11606},
+  year={2021}
 ```
 
 Acknowledgments
