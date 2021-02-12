@@ -10,7 +10,7 @@
 This repository contains the implementation of [Generative Multi-Label Zero-Shot Learning](https://arxiv.org/pdf/2101.11606.pdf).
 > In this work, we tackle the problem of synthesizing multi-label features in the context of zero-shot setting for recognition all (un)seen labels with a novel training mechanism.
 
-![Image](https://github.com/akshitac8/Generative_MLZSL/blob/main/images/arch.png)
+<img src = "https://i.imgur.com/iSKLAYH.png"> 
 
 
 ## Installation
