@@ -1,4 +1,4 @@
-python verify_paper_results.py --gzsl \
+python evaluate.py --gzsl \
 --gammaD 10 --gammaG 10 \
 --manualSeed 3483 --preprocessing --cuda \
 --nepoch 70 \

@@ -1,3 +1,10 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Fri May  8 21:56:19 2020
+
+@author: akshitac8
+"""
 import torch
 import torch.nn.functional as F
 from sklearn import preprocessing
@@ -147,7 +154,7 @@ class DATA_LOADER(object):
 
     def read_matdataset(self, opt):
         tic = time.time()
-        src = "/home/ubuntu/workspace/data/NUS-WIDE"
+        src = "data/NUS-WIDE"
         att_path = os.path.join(src,'wiki_contexts','NUS_WIDE_pretrained_w2v_glove-wiki-gigaword-300')
         file_tag1k = os.path.join(src,'NUS_WID_Tags','TagList1k.txt')
         file_tag81 = os.path.join(src,'ConceptsList','Concepts81.txt')
@@ -242,7 +249,7 @@ class DATA_LOADER(object):
     def _average(self, lab, attribute):
         return torch.mean(attribute[lab], 0)
 
-    def early_fusion_preprocess_att(self, labels, attribute):
+    def ALF_preprocess_att(self, labels, attribute):
         new_seen_attribute = torch.zeros(labels.shape[0], attribute.shape[-1])
         for i in range(len(labels)):
             lab = labels[i].nonzero().flatten()
@@ -250,7 +257,7 @@ class DATA_LOADER(object):
             new_seen_attribute[i, :] = self._average(lab, attribute)
         return new_seen_attribute
 
-    def late_fusion_preprocess_att(self, labels, attribute):
+    def FLF_preprocess_att(self, labels, attribute):
         new_attributes = torch.zeros(labels.shape[0], self.N, attribute.shape[-1]) #new attributes [BS X 10 X 925]
         for i in range(len(labels)):
             lab = labels[i].nonzero().flatten()
@@ -265,15 +272,15 @@ class DATA_LOADER(object):
         labels = self.train_trimmed_label
         batch_feature = feature[idx]
         batch_labels = labels[idx]
-        early_fusion_train_batch_att = self.early_fusion_preprocess_att(batch_labels, self.attribute)
-        late_fusion_train_batch_att = self.late_fusion_preprocess_att(batch_labels, self.attribute)
+        early_fusion_train_batch_att = self.ALF_preprocess_att(batch_labels, self.attribute)
+        late_fusion_train_batch_att = self.FLF_preprocess_att(batch_labels, self.attribute)
         return batch_labels, batch_feature, late_fusion_train_batch_att, early_fusion_train_batch_att
 
     ## Testing Dataloader
     def next_test_batch(self, batch_size):
         idx = torch.randperm(len(self.GZSL_fake_test_labels))[0:batch_size]
         batch_labels = self.GZSL_fake_test_labels[idx]
-        early_fusion_test_batch_att = self.early_fusion_preprocess_att(batch_labels, self.attribute)
-        late_fusion_test_batch_att = self.late_fusion_preprocess_att(batch_labels, self.attribute)
+        early_fusion_test_batch_att = self.ALF_preprocess_att(batch_labels, self.attribute)
+        late_fusion_test_batch_att = self.FLF_preprocess_att(batch_labels, self.attribute)
 
         return batch_labels, late_fusion_test_batch_att, early_fusion_test_batch_att

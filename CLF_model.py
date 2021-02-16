@@ -1,3 +1,11 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Fri May  8 21:56:19 2020
+
+@author: akshitac8
+"""
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -33,27 +41,10 @@ class Encoder(nn.Module):
         log_vars = self.linear_log_var(x)
         return means, log_vars
 
-## EARLY FUSION ##
-class Generator(nn.Module):
-    def __init__(self, opt):
-        super(Generator, self).__init__()
-        input_size = opt.attSize * 2
-        self.fc1 = nn.Linear(input_size, opt.decoder_layer_sizes[0])
-        self.fc2 = nn.Linear(opt.decoder_layer_sizes[0], opt.decoder_layer_sizes[1])
-        self.lrelu = nn.LeakyReLU(0.2, True)
-        self.apply(weights_init)
-
-    def forward(self, z, att):
-        z = torch.cat((z, att), dim=-1)
-        x1 = self.lrelu(self.fc1(z))
-        x1 = self.fc2(x1)
-        x1 = torch.sigmoid(x1)
-        return x1
-
 # Generator body used for late and hybrid fusion
-class body_generator(nn.Module):
+class generator(nn.Module):
     def __init__(self, opt, att_size):
-        super(body_generator, self).__init__()
+        super(generator, self).__init__()
         layer_sizes = opt.decoder_layer_sizes
         input_size = att_size * 2
         self.fc1 = nn.Linear(input_size, layer_sizes[0])
@@ -66,23 +57,6 @@ class body_generator(nn.Module):
         x = self.lrelu(self.fc1(x))
         x = self.fc2(x)
         return x
-
-## EARLY FUSION ##
-class LATE_FUSION(nn.Module):
-    def __init__(self, opt):
-        super(LATE_FUSION, self).__init__()
-        self.late_fusion = body_generator(opt, opt.attSize)
-        self.resSize = opt.resSize
-    def forward(self, noise, att): #feat-> [BSX4096] #att->list (Nx312) with len=BS
-        late_out = torch.zeros(len(att),self.resSize).cuda()
-        idx_count = torch.zeros(len(att)).cuda()
-        for j in range(att.size(1)):
-            idx = [i for i in range(len(att)) if att[i,j].abs().sum() > 0]
-            idx_count[idx] += 1
-            late_out[idx] += torch.sigmoid(self.late_fusion(noise[idx],att[idx,j].cuda()))
-        late_out = late_out/idx_count.unsqueeze(1).clamp(min=1)
-        final_output = late_out
-        return final_output
 
 ## HYBRID FUSION SELF ATTENTION ###
 class MultiHeadAttention(nn.Module):
@@ -133,7 +107,7 @@ class FeedForward(nn.Module):
         x += residual
         return x
 
-class MultiheadAttentionlayer(nn.Module):
+class Fusion_Attention(nn.Module):
     def __init__(self, heads, d_model, d_ff):
         super().__init__()
         self.self_attn = MultiHeadAttention(heads, d_model)
@@ -144,13 +118,14 @@ class MultiheadAttentionlayer(nn.Module):
         x = self.feedforward_net(x)
         return x
 
-class HYBRID_FUSION_ATTENTION(nn.Module):
+## self.early_fusion -> 'ALF', self.late_fusion -> 'FLF' ##
+class CLF(nn.Module):
     def __init__(self, opt):
-        super(HYBRID_FUSION_ATTENTION, self).__init__()
+        super(CLF, self).__init__()
         self.resSize, self.N, self.hiddensize, late_heads  = opt.resSize, opt.N, opt.hiddensize, 8
-        self.early_fusion = body_generator(opt, opt.attSize)
-        self.late_fusion = body_generator(opt, opt.attSize)
-        self.attn = MultiheadAttentionlayer(late_heads, self.resSize, self.hiddensize)
+        self.early_fusion = generator(opt, opt.attSize)
+        self.late_fusion = generator(opt, opt.attSize)
+        self.attn = Fusion_Attention(late_heads, self.resSize, self.hiddensize)
 
     def forward(self, noise, att, avg_att):
         late_out = torch.zeros(len(att),self.resSize).cuda()

@@ -1,3 +1,10 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Fri May  8 21:56:19 2020
+
+@author: akshitac8
+"""
 import torch
 import torch.nn as nn
 import torch.autograd as autograd
@@ -10,7 +17,7 @@ import os
 import csv
 import numpy as np
 import warnings
-import model as model
+import CLF_model as model
 import classifier as classifier
 from config import opt
 import util as util
@@ -40,7 +47,7 @@ print("training samples: ", data.ntrain)
 
 ############## MODEL INITIALIZATION #############
 netE = model.Encoder(opt)
-netG = model.HYBRID_FUSION_ATTENTION(opt)
+netG = model.CLF(opt)
 netD = model.Discriminator(opt)
 
 print(netE)
@@ -329,7 +336,7 @@ print('ZSL K=3 : f1=%.4f,P=%.4f,R=%.4f' %
         (sum_f1_best_ZSL_F1_3, sum_f1_best_ZSL_P_3, sum_f1_best_ZSL_R_3))
 
 ##saving results to csv file
-fname = 'HYBRID_FUSION_result_F1.csv'
+fname = 'CLF_result_F1.csv'
 row = [opt.nepoch, sum_f1_best_GZSL_AP, sum_f1_best_ZSL_AP, sum_f1_best_GZSL_F1_3, sum_f1_best_GZSL_P_3, 
         sum_f1_best_GZSL_R_3, sum_f1_best_ZSL_F1_3, sum_f1_best_ZSL_P_3, sum_f1_best_ZSL_R_3,
         sum_f1_best_GZSL_F1_5, sum_f1_best_GZSL_P_5, sum_f1_best_GZSL_R_5, sum_f1_best_ZSL_F1_5, 
