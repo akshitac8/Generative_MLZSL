@@ -20,7 +20,7 @@ import csv
 import os
 import torch.nn.functional as F
 from config import opt
-import model
+import CLF_model as model
 import random
 import torch.backends.cudnn as cudnn
 from sklearn.metrics import average_precision_score, f1_score, precision_score, recall_score
