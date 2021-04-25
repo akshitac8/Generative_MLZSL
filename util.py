@@ -155,7 +155,7 @@ class DATA_LOADER(object):
     def read_matdataset(self, opt):
         tic = time.time()
         src = "data/NUS-WIDE"
-        att_path = os.path.join(src,'wiki_contexts','NUS_WIDE_pretrained_w2v_glove-wiki-gigaword-300')
+        att_path = os.path.join(src,'word_embedding','NUS_WIDE_pretrained_w2v_glove-wiki-gigaword-300')
         file_tag1k = os.path.join(src,'NUS_WID_Tags','TagList1k.txt')
         file_tag81 = os.path.join(src,'ConceptsList','Concepts81.txt')
         self.seen_cls_idx, _ = get_seen_unseen_classes(file_tag1k, file_tag81)
