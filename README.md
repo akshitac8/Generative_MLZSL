@@ -24,8 +24,11 @@ conda activate mlzsl
 
 ## Data Preparation
 
-Download the NUS-WIDE features, tags and other required training files from the drive link shared below and extract them in the `./data` folder.
+Download the NUS-WIDE features, tags and other required training files from the drive link shared below.
+```
 link: https://drive.google.com/drive/folders/1jwi5sxVjT8Z2RWPzNIOxS443agm3IvSi?usp=sharing
+```
+Extract them in the `./data` folder.
 
 ## Training and Evaluation
 
