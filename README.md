@@ -24,7 +24,7 @@ For installing, follow these intructions
 conda create -n mlzsl python=3.6
 conda activate mlzsl
 conda install pytorch=1.1 torchvision=0.3 cudatoolkit=9.0 -c pytorch
-pip install matplotlib scikit-image scikit-learn opencv-python yacs joblib natsort h5py tqdm pandas
+pip install matplotlib scikit-image scikit-learn opencv-python yacs joblib natsort tqdm pandas h5py==2.10.0
 ```
 
 ## Data Preparation

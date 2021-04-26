@@ -3,18 +3,39 @@ import os
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader
-from networks.VGG_model import Net
+from VGG_model import Net
 import json
 from tqdm import tqdm
 import numpy as np
 import h5py
 import argparse
+
 np.random.seed(1234)
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--train_json', type=str, default='nus_wide_train', help='training json filename')
 parser.add_argument('--test_json', type=str, default='nus_wide_test', help='testing json filename')
 parser.add_argument('--output_dir', type=str, default='Flicker_jsons', help='foldername containg generated jsons')
+
+def save_dict_to_hdf5(dic, filename):
+    """
+    ....
+    """
+    with h5py.File(filename, 'w') as h5file:
+        recursively_save_dict_contents_to_group(h5file, '/', dic)
+
+def recursively_save_dict_contents_to_group(h5file, path, dic):
+    """
+    ....
+    """
+    for key, item in dic.items():
+        if isinstance(item, (np.ndarray, np.int64, np.float64, str, bytes,'<U44')):
+            h5file[path + key] = item
+        elif isinstance(item, dict):
+            recursively_save_dict_contents_to_group(h5file, path + key + '/', item)
+        else:
+            raise ValueError('Cannot save %s type'%type(item))
+
 
 model = Net()
 model = model.eval()

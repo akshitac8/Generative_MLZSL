@@ -1,3 +1,5 @@
+#!/bin/bash
+
 python train.py --gzsl \
 --gammaD 10 --gammaG 10 \
 --manualSeed 3483 --preprocessing --cuda \
