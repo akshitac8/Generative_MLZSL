@@ -14,7 +14,7 @@ import warnings
 import networks.CLF_model as model
 import classifier as classifier
 from config import opt
-import utils.misc as util
+import util as util
 warnings.filterwarnings('ignore')
 
 #############################################

@@ -10,7 +10,7 @@ import torch.nn as nn
 from torch.autograd import Variable
 import torch.optim as optim
 import numpy as np
-import utils.misc as util
+import util as util
 import torch.nn as nn
 from sklearn.preprocessing import MinMaxScaler
 import sys

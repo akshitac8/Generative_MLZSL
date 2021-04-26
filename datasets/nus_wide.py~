@@ -152,8 +152,8 @@ class DATA_LOADER(object):
         self.attribute = torch.from_numpy(normalize(np.concatenate((src_att[0][self.seen_cls_idx],src_att[1]),axis=0)))
         #VGG features path
         train_loc = util.load_dict_from_hdf5(os.path.join(src, 'nus_wide_vgg_features','nus_seen_train_vgg19.h5'))
-        test_unseen_loc = util.load_dict_from_hdf5(os.path.join(src, 'nus_wide_vgg_features', 'nus_zsl_test_vgg19.h5'))
-        test_seen_unseen_loc = util.load_dict_from_hdf5(os.path.join(src, 'nus_wide_vgg_features', 'nus_gzsl_test_vgg19.h5'))
+        test_unseen_loc = util.load_dict_from_hdf5(os.path.join(src, 'nus_wide_paper_features', 'nus_zsl_test_vgg19.h5'))
+        test_seen_unseen_loc = util.load_dict_from_hdf5(os.path.join(src, 'nus_wide_paper_features', 'nus_gzsl_test_vgg19.h5'))
 
 
         feature_train_loc = train_loc['features']
