@@ -142,7 +142,11 @@ class DATA_LOADER(object):
 
     def read_matdataset(self, opt):
         tic = time.time()
+<<<<<<< HEAD
         src = "datasets/NUS-WIDE" #folder for path containing features
+=======
+        src = "datasets/NUS-WIDE" #path contsining features
+>>>>>>> b9674dde78f7a76bbbc098990bb427bcdeff9e0b
         att_path = os.path.join(src,'word_embedding','NUS_WIDE_pretrained_w2v_glove-wiki-gigaword-300')
         file_tag1k = os.path.join(src,'NUS_WID_Tags','TagList1k.txt')
         file_tag81 = os.path.join(src,'ConceptsList','Concepts81.txt')

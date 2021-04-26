@@ -6,6 +6,8 @@
 
 (* denotes equal contribution)
 
+Webpage: https://akshitac8.github.io/GAN_MLZSL/
+
 ## Overview
 This repository contains the implementation of [Generative Multi-Label Zero-Shot Learning](https://arxiv.org/pdf/2101.11606.pdf).
 > In this work, we tackle the problem of synthesizing multi-label features in the context of zero-shot setting for recognition all (un)seen labels with a novel training mechanism.
@@ -31,7 +33,7 @@ pip install matplotlib scikit-image scikit-learn opencv-python yacs joblib natso
 
 Download the NUS-WIDE features, tags and other required training files from the drive link shared below.
 ```
-link: https://drive.google.com/drive/folders/1jwi5sxVjT8Z2RWPzNIOxS443agm3IvSi?usp=sharing
+link: https://drive.google.com/file/d/1LaCDkLY4XnkB5901OwRTdjOxCRvtDbfP/view?usp=sharing
 ```
 Extract them in the `./datasets` folder.
 
