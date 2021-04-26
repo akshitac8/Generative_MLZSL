@@ -16,46 +16,25 @@ import h5py
 import time
 import numpy as np
 import random
+import utils.misc as util
 random.seed(3483)
 np.random.seed(3483)
 
-def load_dict_from_hdf5(filename):
-    """
-    ....
-    """
-    with h5py.File(filename, 'r') as h5file:
-        return recursively_load_dict_contents_from_group(h5file, '/')
-
-def recursively_load_dict_contents_from_group(h5file, path):
-    """
-    ....
-    """
-    ans = {}
-    for key, item in h5file[path].items():
-        if isinstance(item, h5py._hl.dataset.Dataset):
-            ans[key] = item.value
-        elif isinstance(item, h5py._hl.group.Group):
-            ans[key] = recursively_load_dict_contents_from_group(
-                h5file, path + key + '/')
-    return ans
-
-def mkdir(path):
-    if not os.path.exists(path):
-        os.makedirs(path)
-
-def weights_init(m):
-    classname = m.__class__.__name__
-    if classname.find('Linear') != -1:
-        m.weight.data.normal_(0.0, 0.02)
-        if m.bias is not None:
-            m.bias.data.fill_(0)
-    elif classname.find('BatchNorm') != -1:
-        m.weight.data.normal_(1.0, 0.02)
-        m.bias.data.fill_(0)
 
 # SYNTHESIS LABELS FROM TRAIN DATA 
 def generate_fake_test_from_train_labels(train_seen_label, attribute, seenclasses, unseenclasses, num, per_seen=0.10, \
                                         per_unseen=0.40, per_seen_unseen= 0.50):
+    """
+    Input:
+        train_seen_label-> images with labels containing objects less than opt.N
+        attribute-> array containing word embeddings
+        seenclasses-> array containing seen class indices
+        unseenclasses-> array containing unseen class indices
+        num-> number of generated synthetic labels
+    Output:
+        gzsl -> tensor containing synthetic labels of only unseen, seen and seen-unseen classes.  
+    
+    """
     if train_seen_label.min() == 0:
         print("Training data already trimmed and converted")
     else:
@@ -135,6 +114,15 @@ def generate_fake_test_from_train_labels(train_seen_label, attribute, seenclasse
     return gzsl
 
 def get_seen_unseen_classes(file_tag1k, file_tag81):
+    """
+    Input:
+        file_tag1k -> NUS-WIDE provided Taglist of 1000 categories.
+        file_tag81 -> NUS-WIDE provided Taglist of 81 categories.
+        
+    Output:
+        seen_cls_idx -> selected seen class indices
+        unseen_cls_idx -> selected unseen class indices
+    """
     with open(file_tag1k, "r") as file:
         tag1k = np.array(file.read().splitlines())
     with open(file_tag81, "r") as file:
@@ -154,7 +142,7 @@ class DATA_LOADER(object):
 
     def read_matdataset(self, opt):
         tic = time.time()
-        src = "data/NUS-WIDE"
+        src = "NUS-WIDE" #path contsining features
         att_path = os.path.join(src,'word_embedding','NUS_WIDE_pretrained_w2v_glove-wiki-gigaword-300')
         file_tag1k = os.path.join(src,'NUS_WID_Tags','TagList1k.txt')
         file_tag81 = os.path.join(src,'ConceptsList','Concepts81.txt')
@@ -163,9 +151,9 @@ class DATA_LOADER(object):
         print("attributes are combined in this order-> seen+unseen")
         self.attribute = torch.from_numpy(normalize(np.concatenate((src_att[0][self.seen_cls_idx],src_att[1]),axis=0)))
         #VGG features path
-        train_loc = load_dict_from_hdf5(os.path.join(src, 'nus_wide_paper_features','nus_seen_train_vgg19.h5'))
-        test_unseen_loc = load_dict_from_hdf5(os.path.join(src, 'nus_wide_paper_features', 'nus_zsl_test_vgg19.h5'))
-        test_seen_unseen_loc = load_dict_from_hdf5(os.path.join(src, 'nus_wide_paper_features', 'nus_gzsl_test_vgg19.h5'))
+        train_loc = util.load_dict_from_hdf5(os.path.join(src, 'nus_wide_paper_features','nus_seen_train_vgg19.h5'))
+        test_unseen_loc = util.load_dict_from_hdf5(os.path.join(src, 'nus_wide_paper_features', 'nus_zsl_test_vgg19.h5'))
+        test_seen_unseen_loc = util.load_dict_from_hdf5(os.path.join(src, 'nus_wide_paper_features', 'nus_gzsl_test_vgg19.h5'))
 
 
         feature_train_loc = train_loc['features']

@@ -1,3 +1,4 @@
+#author: akshitac8
 import torch
 import torch.nn as nn
 import torch.autograd as autograd
@@ -10,10 +11,10 @@ import os
 import csv
 import numpy as np
 import warnings
-import model as model
+import networks.CLF_model as model
 import classifier as classifier
 from config import opt
-import util as util
+import utils.misc as util
 warnings.filterwarnings('ignore')
 
 #############################################

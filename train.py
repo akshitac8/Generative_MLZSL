@@ -17,10 +17,10 @@ import os
 import csv
 import numpy as np
 import warnings
-import CLF_model as model
+import networks.CLF_model as model
 import classifier as classifier
 from config import opt
-import util as util
+import datasets.nus_wide as data
 warnings.filterwarnings('ignore')
 
 ########################################################
@@ -42,7 +42,7 @@ if torch.cuda.is_available() and not opt.cuda:
     print("WARNING: You have a CUDA device, so you should probably run with --cuda")
 
 #calling the dataloader
-data = util.DATA_LOADER(opt)
+data = data.DATA_LOADER(opt)
 print("training samples: ", data.ntrain)
 
 ############## MODEL INITIALIZATION #############

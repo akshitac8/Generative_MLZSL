@@ -10,7 +10,7 @@ import torch.nn as nn
 from torch.autograd import Variable
 import torch.optim as optim
 import numpy as np
-import util as util
+import utils.misc as util
 import torch.nn as nn
 from sklearn.preprocessing import MinMaxScaler
 import sys
@@ -20,7 +20,7 @@ import csv
 import os
 import torch.nn.functional as F
 from config import opt
-import CLF_model as model
+import networks.CLF_model as model
 import random
 import torch.backends.cudnn as cudnn
 from sklearn.metrics import average_precision_score, f1_score, precision_score, recall_score
