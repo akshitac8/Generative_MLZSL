@@ -142,7 +142,7 @@ class DATA_LOADER(object):
 
     def read_matdataset(self, opt):
         tic = time.time()
-        src = "NUS-WIDE" #path contsining features
+        src = "datasets/NUS-WIDE" #path contsining features
         att_path = os.path.join(src,'word_embedding','NUS_WIDE_pretrained_w2v_glove-wiki-gigaword-300')
         file_tag1k = os.path.join(src,'NUS_WID_Tags','TagList1k.txt')
         file_tag81 = os.path.join(src,'ConceptsList','Concepts81.txt')
@@ -151,9 +151,9 @@ class DATA_LOADER(object):
         print("attributes are combined in this order-> seen+unseen")
         self.attribute = torch.from_numpy(normalize(np.concatenate((src_att[0][self.seen_cls_idx],src_att[1]),axis=0)))
         #VGG features path
-        train_loc = util.load_dict_from_hdf5(os.path.join(src, 'nus_wide_paper_features','nus_seen_train_vgg19.h5'))
-        test_unseen_loc = util.load_dict_from_hdf5(os.path.join(src, 'nus_wide_paper_features', 'nus_zsl_test_vgg19.h5'))
-        test_seen_unseen_loc = util.load_dict_from_hdf5(os.path.join(src, 'nus_wide_paper_features', 'nus_gzsl_test_vgg19.h5'))
+        train_loc = util.load_dict_from_hdf5(os.path.join(src, 'nus_wide_vgg_features','nus_seen_train_vgg19.h5'))
+        test_unseen_loc = util.load_dict_from_hdf5(os.path.join(src, 'nus_wide_vgg_features', 'nus_zsl_test_vgg19.h5'))
+        test_seen_unseen_loc = util.load_dict_from_hdf5(os.path.join(src, 'nus_wide_vgg_features', 'nus_gzsl_test_vgg19.h5'))
 
 
         feature_train_loc = train_loc['features']
