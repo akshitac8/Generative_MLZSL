@@ -9,6 +9,7 @@ from tqdm import tqdm
 import numpy as np
 import h5py
 import argparse
+from data import get_extract_data
 
 np.random.seed(1234)
 
