@@ -38,7 +38,7 @@ if torch.cuda.is_available() and not opt.cuda:
 #init dataloader
 data = util.DATA_LOADER(opt)
 print("training batches: ", data.ntrain)
-print("Datatset", opt.dataset)
+# print("Datatset", opt.dataset)
 
 ############## MODEL INITIALIZATION #############
 netG = model.HYBRID_FUSION_ATTENTION(opt)
@@ -102,7 +102,7 @@ train_Y = gzsl_syn_label
 print(train_Y.shape)
 tic = time.time()
 gzsl_cls = classifier.CLASSIFIER(train_X, train_Y, data, nclass,
-                                opt.cuda, opt.dataset, opt, opt.classifier_lr, 0.5, opt.classifier_epoch,
+                                opt.cuda, opt, opt.classifier_lr, 0.5, opt.classifier_epoch,
                                 opt.classifier_batch_size, True)
 
 
@@ -130,7 +130,7 @@ print(zsl_syn_label.shape)
 
 tic = time.time()
 zsl_cls = classifier.CLASSIFIER(zsl_syn_feature, zsl_syn_label, data,
-                                data.unseenclasses.size(0), opt.cuda, opt.dataset, opt, opt.classifier_lr,
+                                data.unseenclasses.size(0), opt.cuda, opt, opt.classifier_lr,
                                 0.5, opt.classifier_epoch, opt.classifier_batch_size, False)
                                 
 sum_f1_best_ZSL_AP = zsl_cls.sum_F1_scores[0]
