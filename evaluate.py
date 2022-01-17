@@ -41,7 +41,7 @@ print("training batches: ", data.ntrain)
 # print("Datatset", opt.dataset)
 
 ############## MODEL INITIALIZATION #############
-netG = model.HYBRID_FUSION_ATTENTION(opt)
+netG = model.CLF(opt)
 print(netG)
 ################################################
 
