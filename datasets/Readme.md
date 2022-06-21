@@ -3,7 +3,7 @@
 
 Download the NUS-WIDE features, tags and other required details from the drive link shared below and keep them in the same folder.
 ```
-link: https://drive.google.com/file/d/1LaCDkLY4XnkB5901OwRTdjOxCRvtDbfP/view?usp=sharing
+link: https://drive.google.com/drive/folders/1tCo-xawWrnGQGaWYJEKQOQ31ts__rAse?usp=sharing
 ```
 ## Training using custom dataset:
 
